@@ -39,7 +39,7 @@ async def connect_db() -> None:
             uri,
             serverSelectionTimeoutMS=5000,
             maxPoolSize=50,
-            tlsCAFile=certifi.where(),
+            **({"tlsCAFile": certifi.where()} if uri.startswith("mongodb+srv") else {}),
         )
         # Verify connection
         await _client.admin.command("ping")
