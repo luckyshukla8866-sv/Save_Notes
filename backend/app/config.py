@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     database_name: str = Field(default="notevault")
 
     # Security
-    allowed_origins: str = Field(default="save-notes-mocha.vercel.app")
+    allowed_origins: str = Field(default="https://save-notes-mocha.vercel.app")
     rate_limit_create: str = Field(default="3/minute")
     rate_limit_read: str = Field(default="10/minute")
     max_note_size: int = Field(default=51200)  # 50KB
