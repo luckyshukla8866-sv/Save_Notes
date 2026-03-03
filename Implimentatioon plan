@@ -1,0 +1,483 @@
+🚀 COMPLETE IMPLEMENTATION PLAN
+
+Temporary Privacy-Focused Note Sharing Platform
+
+PHASE 0 — REQUIREMENT FREEZE (Day 1)
+
+Before touching code:
+
+Lock Final Rules
+
+No authentication
+
+Lowercase access codes only
+
+8–32 characters
+
+Regex: [a-z0-9_-]
+
+Max note size: 50KB
+
+Expiry options: 1h, 6h, 24h, 7d (max 168h)
+
+Hard delete using MongoDB TTL
+
+Rate limit:
+
+Create: 3/min/IP
+
+Read: 10/min/IP
+
+Generic error message for invalid/expired
+
+Stateless API
+
+HTTPS only in production
+
+If you keep changing rules mid-build, you will destroy architecture integrity.
+
+PHASE 1 — ARCHITECTURE & ENV SETUP (Day 2–3)
+1️⃣ Initialize Backend
+
+Stack:
+
+FastAPI
+
+Motor (async MongoDB)
+
+SlowAPI (rate limit)
+
+Pydantic
+
+dotenv
+
+Create structured project:
+
+app/
+ ├── main.py
+ ├── config.py
+ ├── database.py
+ ├── models.py
+ ├── schemas.py
+ ├── routes/
+ │    └── notes.py
+ ├── services/
+ │    └── note_service.py
+ ├── utils/
+ │    └── security.py
+ └── middleware/
+2️⃣ Environment Variables
+
+.env
+
+MONGO_URI
+
+DATABASE_NAME
+
+MIN_CODE_LENGTH=8
+
+MAX_CODE_LENGTH=32
+
+MAX_NOTE_SIZE=51200
+
+MAX_EXPIRY_HOURS=168
+
+CREATE_RATE_LIMIT=3/minute
+
+READ_RATE_LIMIT=10/minute
+
+No hardcoding.
+
+3️⃣ Database Setup
+
+Using MongoDB.
+
+Collection: notes
+
+Document structure:
+
+{
+  access_code: string,
+  note_content: string,
+  expiry_time: datetime (UTC),
+  created_at: datetime (UTC)
+}
+
+Indexes (MANDATORY):
+
+Unique index on access_code
+
+TTL index on expiry_time (expireAfterSeconds=0)
+
+Test TTL locally.
+Wait until a document actually auto-deletes.
+If you don’t verify it — your privacy claim is fake.
+
+PHASE 2 — CORE BACKEND IMPLEMENTATION (Day 4–6)
+4️⃣ Input Validation Layer
+
+Using Pydantic:
+
+Access Code
+
+Lowercase enforced
+
+Regex validation
+
+Strip whitespace
+
+Reject uppercase automatically
+
+Note Content
+
+Not empty
+
+<= 50KB
+
+Trim whitespace
+
+Expiry
+
+Only allowed predefined values
+
+Convert to UTC timestamp
+
+Reject >168 hours
+
+Never trust frontend input.
+
+5️⃣ Security Utility Functions
+
+Create:
+
+normalize_access_code()
+
+validate_code_format()
+
+calculate_expiry_utc()
+
+validate_note_size()
+
+All security logic centralized.
+
+6️⃣ Implement POST /create
+
+Flow:
+
+Validate schema
+
+Normalize code
+
+Calculate expiry
+
+Insert into MongoDB
+
+Catch duplicate key error
+
+Return safe response
+
+Never expose:
+
+MongoDB errors
+
+Internal IDs
+
+7️⃣ Implement GET /note/{code}
+
+Flow:
+
+Normalize code
+
+Query database
+
+If not found → generic error
+
+Return note content
+
+Never say:
+“Code exists but expired.”
+
+Always:
+"Note not found or expired."
+
+No data leakage.
+
+8️⃣ Rate Limiting
+
+Apply:
+
+Create → 3/min/IP
+
+Read → 10/min/IP
+
+Add:
+
+Temporary IP block after repeated failed reads (optional advanced)
+
+Log abuse attempts
+
+9️⃣ Global Error Handler
+
+Uniform response:
+
+{
+  "error": "Invalid request"
+}
+
+No stack traces.
+No debug output.
+Disable FastAPI debug mode in production.
+
+PHASE 3 — ADVANCED SECURITY HARDENING (Day 7–8)
+10️⃣ CORS Configuration
+
+Allow only your frontend domain.
+Never use * in production.
+
+11️⃣ Add One-Time View Mode (Optional but Powerful)
+
+Add boolean flag:
+
+one_time: true/false
+
+If true:
+Delete document immediately after first retrieval.
+
+12️⃣ Optional Encryption at Rest
+
+Before storing note:
+
+Encrypt using AES
+
+Store encrypted text
+
+Decrypt during retrieval
+
+Now even DB breach won’t expose plaintext easily.
+
+13️⃣ Abuse Mitigation
+
+Add:
+
+Max expiry cap
+
+Rate limiting
+
+Optional simple content filter
+
+Report abuse endpoint
+
+You go public → abuse will happen.
+
+PHASE 4 — FRONTEND DEVELOPMENT (Day 9–12)
+
+Use Next.js.
+
+Two pages only:
+
+14️⃣ Create Page
+
+Fields:
+
+Access code
+
+Note content
+
+Expiry dropdown
+
+One-time toggle (optional)
+
+Client-side validation:
+
+Regex
+
+Length check
+
+Size limit
+
+Call backend API.
+
+15️⃣ Access Page
+
+Field:
+
+Code input
+
+Display:
+
+Note content
+
+Expiry time
+
+Handle error:
+Show generic message.
+
+16️⃣ UX Rules
+
+Clean minimal UI
+
+Dark mode optional
+
+No tracking scripts
+
+No analytics that store personal data
+
+Page load <2 seconds.
+
+PHASE 5 — TESTING (Day 13–14)
+17️⃣ Manual Testing
+
+Test:
+
+Duplicate code
+
+Uppercase input
+
+Invalid characters
+
+Expired note
+
+Rapid API calls
+
+100 concurrent reads
+
+18️⃣ Load Testing
+
+Use k6 or Locust.
+
+Simulate:
+
+500 users reading
+
+50 users creating
+
+If backend crashes → optimize before deploy.
+
+PHASE 6 — DEPLOYMENT (Day 15–16)
+19️⃣ Backend Deployment
+
+Deploy FastAPI with:
+
+Docker
+
+Railway or Render
+
+Enable:
+
+HTTPS
+
+Production environment variables
+
+Logging
+
+20️⃣ MongoDB Atlas Setup
+
+Enable IP restrictions
+
+Use strong credentials
+
+Enable backups
+
+21️⃣ Frontend Deployment
+
+Deploy Next.js on Vercel.
+
+Set:
+
+Production API URL
+
+Environment variables
+
+PHASE 7 — POST-DEPLOYMENT VERIFICATION
+22️⃣ Verify TTL in Production
+
+Create test note with 1h expiry.
+Confirm deletion happens.
+
+This is mandatory.
+
+23️⃣ Monitor Logs
+
+Check:
+
+Rate limit hits
+
+Abuse attempts
+
+Unexpected errors
+
+24️⃣ Security Audit Using AI
+
+Ask AI:
+
+Attack simulation
+
+Brute-force estimation
+
+DoS vulnerabilities
+
+DB misconfiguration risks
+
+PHASE 8 — LAUNCH
+25️⃣ Add:
+
+Landing page
+
+Clear privacy policy
+
+Short tagline
+
+Simple demo video
+
+26️⃣ Publish
+
+Share:
+
+GitHub (clean README)
+
+LinkedIn
+
+Reddit dev communities
+
+PHASE 9 — SCALABILITY PREP
+
+If traffic increases:
+
+Use Redis for rate limiting
+
+Add CDN
+
+Horizontal backend scaling
+
+DB index monitoring
+
+FINAL SECURITY CHECKLIST
+
+Before public announcement:
+
+✅ TTL index verified
+✅ Unique index working
+✅ Rate limiting enforced
+✅ Min 8 characters enforced
+✅ HTTPS active
+✅ No debug info
+✅ Generic error messaging
+✅ CORS restricted
+✅ Logs monitored
+
+If even one is missing, don’t launch.
+
+Reality Check
+
+If you execute this fully:
+
+This becomes:
+
+Strong backend portfolio project
+
+System design discussion material
+
+Deployable real product
+
+If you skip steps:
+It becomes another CRUD demo nobody cares about.
