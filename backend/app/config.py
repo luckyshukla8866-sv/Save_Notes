@@ -18,8 +18,8 @@ class Settings(BaseSettings):
 
     # MongoDB
     mongo_host: str = Field(default="localhost:27017")
-    mongo_user: str = Field(default="")
-    mongo_password: str = Field(default="")
+    mongo_user: str = Field(default="cluster0.w4awnjb.mongodb.net")
+    mongo_password: str = Field(default="luckyshukla_db_user")
     database_name: str = Field(default="notevault")
 
     # Security
