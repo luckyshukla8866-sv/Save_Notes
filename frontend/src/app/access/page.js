@@ -65,8 +65,9 @@ function AccessNoteContent() {
   if (status === "success" && note) {
     return (
       <div className="page-wrapper">
+        <div className="page-glow" />
         <div className="container container--narrow">
-          <motion.div className="glass-card" style={{ padding: "48px 40px" }}
+          <motion.div className="glass-card glass-card--static" style={{ padding: "44px 36px" }}
             initial={{ opacity: 0, scale: 0.98, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}>
@@ -75,18 +76,18 @@ function AccessNoteContent() {
               <div>
                 <motion.h1 className="heading-md" style={{ marginBottom: 8, display: "flex", alignItems: "center", gap: 8 }}
                   initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}>
-                  <IconLockOpen size={22} color="#16a34a" /> Decrypted Note
+                  <IconLockOpen size={22} color="#4ade80" /> Decrypted Note
                 </motion.h1>
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}
                   style={{ display: "inline-flex", background: "var(--bg-input)", padding: "4px 12px", borderRadius: "var(--radius-xs)", border: "1px solid var(--border-subtle)" }}>
-                  <code style={{ color: "var(--text-accent)", fontFamily: "var(--font-mono)", fontSize: "0.82rem" }}>
+                  <code style={{ color: "var(--accent-secondary)", fontFamily: "var(--font-mono)", fontSize: "0.82rem" }}>
                     ID: {code.trim().toLowerCase()}
                   </code>
                 </motion.div>
               </div>
               <motion.div className={`badge ${timeLeft > 3600 ? "badge--cyan" : ""}`}
                 style={{
-                  ...(timeLeft < 300 ? { borderColor: "#dc2626", color: "#dc2626", background: "rgba(220,38,38,0.06)" } : {})
+                  ...(timeLeft < 300 ? { borderColor: "rgba(239,68,68,0.3)", color: "#f87171", background: "rgba(239,68,68,0.08)" } : {})
                 }}
                 initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2 }}>
                 <IconClockHour4 size={14} /> {formatTimeLeft(timeLeft)}
@@ -105,7 +106,7 @@ function AccessNoteContent() {
               <span className="text-muted">Destructs: {new Date(note.expires_at).toLocaleString()}</span>
             </motion.div>
 
-            <motion.div style={{ marginTop: 32, paddingTop: 24, borderTop: "1px solid var(--border-subtle)", display: "flex", gap: 12 }}
+            <motion.div style={{ marginTop: 28, paddingTop: 20, borderTop: "1px solid var(--border-subtle)", display: "flex", gap: 12 }}
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
               <button className="btn btn--secondary" onClick={handleReset}>
                 <IconArrowLeft size={18} /> Close
@@ -113,23 +114,37 @@ function AccessNoteContent() {
             </motion.div>
           </motion.div>
         </div>
+        <style jsx>{`
+          .page-glow {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(74, 222, 128, 0.05), transparent 70%);
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
+            z-index: 0;
+          }
+        `}</style>
       </div>
     );
   }
 
   // ── Form ──
   return (
-    <div className="page-wrapper" style={{ background: "var(--tint-slate)" }}>
+    <div className="page-wrapper">
+      <div className="page-glow" />
       <div className="container container--narrow">
-        <motion.div className="glass-card" style={{ padding: "48px 40px" }}
+        <motion.div className="glass-card glass-card--static" style={{ padding: "44px 36px" }}
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
 
-          <div style={{ textAlign: "center", marginBottom: 40 }}>
+          <div style={{ textAlign: "center", marginBottom: 36 }}>
             <p className="section-label" style={{ justifyContent: "center" }}>Decryption</p>
-            <h1 className="heading-display" style={{ marginBottom: 12 }}>
-              <em>Access a Note</em>
+            <h1 className="heading-display" style={{ marginBottom: 10 }}>
+              <span className="text-gradient">Access a Note</span>
             </h1>
-            <p className="text-secondary">Enter a valid access code to retrieve the temporary note.</p>
+            <p className="text-secondary" style={{ fontSize: "0.95rem" }}>Enter a valid access code to retrieve the temporary note.</p>
           </div>
 
           <form onSubmit={handleSubmit} noValidate>
@@ -145,7 +160,7 @@ function AccessNoteContent() {
               {status === "error" && errorMsg && (
                 <motion.div key="error" className="status-error"
                   initial={{ opacity: 0, height: 0, marginBottom: 0 }}
-                  animate={{ opacity: 1, height: "auto", marginBottom: 24 }}
+                  animate={{ opacity: 1, height: "auto", marginBottom: 20 }}
                   exit={{ opacity: 0, height: 0, marginBottom: 0 }}>
                   <IconAlertCircle size={20} /> {errorMsg}
                 </motion.div>
@@ -158,8 +173,8 @@ function AccessNoteContent() {
                   <div className="skeleton-box">
                     <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
                       <span className="spinner" style={{ width: 16, height: 16, borderWidth: 2 }}></span>
-                      <span style={{ fontWeight: 600, fontSize: "0.85rem", letterSpacing: "0.05em", color: "var(--text-secondary)" }}>
-                        DECRYPTING...
+                      <span style={{ fontWeight: 600, fontSize: "0.82rem", letterSpacing: "0.06em", color: "var(--accent-secondary)", textTransform: "uppercase" }}>
+                        Decrypting...
                       </span>
                     </div>
                     <div className="skel-line" style={{ width: "100%" }}></div>
@@ -180,18 +195,29 @@ function AccessNoteContent() {
       </div>
 
       <style jsx>{`
+        .page-glow {
+          position: fixed;
+          width: 500px;
+          height: 500px;
+          background: radial-gradient(circle, rgba(139, 92, 246, 0.06), transparent 70%);
+          top: 20%;
+          left: 50%;
+          transform: translateX(-50%);
+          pointer-events: none;
+          z-index: 0;
+        }
         .skeleton-box {
-          padding: 24px;
+          padding: 22px;
           background: var(--bg-input);
           border-radius: var(--radius-md);
-          border: 1.5px solid var(--border-light);
+          border: 1px solid var(--border-light);
           display: flex;
           flex-direction: column;
-          gap: 12px;
+          gap: 10px;
         }
         .skel-line {
-          height: 10px;
-          background: rgba(0, 0, 0, 0.04);
+          height: 8px;
+          background: rgba(255, 255, 255, 0.03);
           border-radius: 4px;
           animation: pulse-glow 1.5s infinite;
         }

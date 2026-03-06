@@ -11,49 +11,57 @@ import {
   IconServer,
   IconBolt,
   IconArrowRight,
+  IconLock,
+  IconSparkles,
 } from "@tabler/icons-react";
 
 /* ── Animation Variants ── */
 const stagger = {
   hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.1 } },
+  show: { opacity: 1, transition: { staggerChildren: 0.08 } },
 };
 const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } },
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 30 } },
 };
 
 /* ── Feature Data ── */
 const features = [
   {
-    icon: <IconClockHour4 size={26} stroke={1.5} />,
+    icon: <IconClockHour4 size={22} stroke={1.5} />,
     title: "TTL Hardware Deletion",
     desc: "MongoDB TTL indexes destroy records at the storage block level. No tombstoning, no soft deletes.",
+    accent: "#8b5cf6",
   },
   {
-    icon: <IconKey size={26} stroke={1.5} />,
+    icon: <IconKey size={22} stroke={1.5} />,
     title: "Stateless Routing",
     desc: "We don't maintain sessions. Your custom access codes act as one-time ephemeral routers directly to memory.",
+    accent: "#6366f1",
   },
   {
-    icon: <IconGhost size={26} stroke={1.5} />,
+    icon: <IconGhost size={22} stroke={1.5} />,
     title: "Shadow Mode Validation",
     desc: "Our API returns identical error structures for invalid and expired notes — preventing timing side-channel attacks.",
+    accent: "#3b82f6",
   },
   {
-    icon: <IconShieldCheck size={26} stroke={1.5} />,
+    icon: <IconShieldCheck size={22} stroke={1.5} />,
     title: "CORS & Header Hardening",
     desc: "Strict Content-Security-Policy headers block unauthorized iframe embeds, XSS vectors, and MIME-sniffing.",
+    accent: "#8b5cf6",
   },
   {
-    icon: <IconServer size={26} stroke={1.5} />,
+    icon: <IconServer size={22} stroke={1.5} />,
     title: "Distributed Rate Control",
     desc: "Aggressive leaky-bucket IP rate-limiting prevents credential stuffing and brute-force discovery.",
+    accent: "#6366f1",
   },
   {
-    icon: <IconBolt size={26} stroke={1.5} />,
+    icon: <IconBolt size={22} stroke={1.5} />,
     title: "Async FastAPI Core",
     desc: "Non-blocking event loop guarantees sub-50ms API response times under load, routing data instantly.",
+    accent: "#3b82f6",
   },
 ];
 
@@ -69,58 +77,73 @@ const trustItems = [
   "Privacy First",
 ];
 
+/* ── Steps Data ── */
+const steps = [
+  {
+    step: "01",
+    title: "Write your note",
+    desc: "Compose any text content you want to share securely. No character format restrictions.",
+    icon: <IconSparkles size={20} stroke={1.5} />,
+  },
+  {
+    step: "02",
+    title: "Set an access code",
+    desc: "Choose a custom, memorable code. This becomes the only key to your encrypted payload.",
+    icon: <IconKey size={20} stroke={1.5} />,
+  },
+  {
+    step: "03",
+    title: "Share & forget",
+    desc: "Send the code to your recipient. The note auto-destructs after your chosen TTL expires.",
+    icon: <IconLock size={20} stroke={1.5} />,
+  },
+];
+
 export default function HomePage() {
   return (
     <>
       {/* ========== HERO SECTION ========== */}
       <section className="hero">
-        {/* Decorative cloud/wave shapes */}
-        <div className="hero-clouds">
-          <svg className="cloud cloud-1" viewBox="0 0 200 120" fill="white" xmlns="http://www.w3.org/2000/svg">
-            <ellipse cx="70" cy="80" rx="70" ry="40" opacity="0.6" />
-            <ellipse cx="120" cy="60" rx="55" ry="35" opacity="0.7" />
-            <ellipse cx="50" cy="60" rx="45" ry="30" opacity="0.5" />
-          </svg>
-          <svg className="cloud cloud-2" viewBox="0 0 200 120" fill="white" xmlns="http://www.w3.org/2000/svg">
-            <ellipse cx="80" cy="80" rx="60" ry="35" opacity="0.5" />
-            <ellipse cx="130" cy="65" rx="50" ry="30" opacity="0.6" />
-            <ellipse cx="60" cy="55" rx="40" ry="28" opacity="0.4" />
-          </svg>
-          <svg className="cloud cloud-3" viewBox="0 0 180 100" fill="white" xmlns="http://www.w3.org/2000/svg">
-            <ellipse cx="90" cy="60" rx="65" ry="35" opacity="0.45" />
-            <ellipse cx="50" cy="50" rx="40" ry="25" opacity="0.55" />
-            <ellipse cx="140" cy="55" rx="40" ry="28" opacity="0.4" />
-          </svg>
-        </div>
+        {/* Gradient mesh backgrounds */}
+        <div className="hero-glow hero-glow-1" />
+        <div className="hero-glow hero-glow-2" />
+        <div className="hero-glow hero-glow-3" />
 
-        {/* Decorative torn/wave paper shapes */}
-        <svg className="hero-wave-left" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M-50 0 C100 50, 200 100, 180 200 C160 300, 50 350, 100 500 L-50 500Z" fill="rgba(255,255,255,0.25)" />
-          <path d="M-80 50 C80 80, 170 150, 150 250 C130 350, 20 380, 70 500 L-80 500Z" fill="rgba(255,255,255,0.15)" />
-        </svg>
-        <svg className="hero-wave-right" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M450 0 C300 80, 200 120, 230 220 C260 320, 380 350, 320 500 L450 500Z" fill="rgba(255,255,255,0.2)" />
-          <path d="M480 30 C340 100, 250 170, 270 270 C290 370, 400 400, 350 500 L480 500Z" fill="rgba(255,255,255,0.12)" />
-        </svg>
-
-        {/* Decorative dashed lines */}
-        <svg className="hero-dashes" viewBox="0 0 1200 600" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M100 150 Q 300 100, 400 200 T 700 180" stroke="rgba(255,255,255,0.3)" strokeWidth="2" strokeDasharray="8 6" fill="none" />
-          <path d="M800 100 Q 900 180, 1000 130 T 1100 200" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" strokeDasharray="6 8" fill="none" />
-          <path d="M200 350 Q 400 300, 500 380 T 800 340" stroke="rgba(255,255,255,0.2)" strokeWidth="1.5" strokeDasharray="10 6" fill="none" />
-        </svg>
+        {/* Grid pattern overlay */}
+        <div className="hero-grid" />
 
         <div className="container" style={{ textAlign: "center", position: "relative", zIndex: 2 }}>
+          <motion.div
+            className="hero-badge"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <span className="hero-badge-dot" />
+            Privacy-first note sharing
+          </motion.div>
+
           <motion.h1
             className="heading-hero"
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
           >
-            Your space for notes,{" "}
+            Secure notes that{" "}
             <br className="hero-break" />
-            tasks, and big ideas
+            <span className="text-gradient">self-destruct</span>
           </motion.h1>
+
+          <motion.p
+            className="hero-subtitle"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+          >
+            Drop sensitive data into the vault with a custom access code.
+            <br className="hero-break" />
+            It auto-destructs after the TTL you set. Zero accounts. Zero traces.
+          </motion.p>
 
           <motion.div
             className="hero-actions"
@@ -129,7 +152,11 @@ export default function HomePage() {
             transition={{ duration: 0.6, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
           >
             <Link href="/create" className="btn btn--primary btn--large">
-              Try NoteVault Free
+              Start Creating
+              <IconArrowRight size={18} />
+            </Link>
+            <Link href="/access" className="btn btn--secondary btn--large">
+              Access a Note
             </Link>
           </motion.div>
         </div>
@@ -158,7 +185,8 @@ export default function HomePage() {
                 Security
               </motion.p>
               <motion.h2 variants={childVariants} className="heading-display">
-                Engineered for <em>Zero Trust</em>
+                Engineered for{" "}
+                <span className="text-gradient">Zero Trust</span>
               </motion.h2>
               <motion.p variants={childVariants}>
                 Every component is designed to minimize data retention and maximize transfer security.
@@ -173,15 +201,19 @@ export default function HomePage() {
             viewport={{ once: true, margin: "-60px" }}
             variants={stagger}
           >
-            {features.map(({ icon, title, desc }) => (
+            {features.map(({ icon, title, desc, accent }) => (
               <motion.div
                 key={title}
                 variants={fadeUp}
                 className="glass-card feature-card"
               >
-                <div className="feature-icon">{icon}</div>
+                <div className="feature-icon" style={{ "--feature-accent": accent }}>
+                  {icon}
+                </div>
                 <h3 className="heading-md" style={{ marginBottom: 8 }}>{title}</h3>
-                <p className="text-secondary" style={{ fontSize: "0.92rem", lineHeight: 1.65 }}>{desc}</p>
+                <p className="text-secondary" style={{ fontSize: "0.9rem", lineHeight: 1.7 }}>{desc}</p>
+                {/* Bottom glow line */}
+                <div className="feature-card-glow" style={{ "--feature-accent": accent }} />
               </motion.div>
             ))}
           </motion.div>
@@ -198,7 +230,7 @@ export default function HomePage() {
               </motion.p>
               <motion.h2 variants={childVariants} className="heading-display">
                 Three steps to{" "}
-                <em>complete privacy</em>
+                <span className="text-gradient">complete privacy</span>
               </motion.h2>
             </div>
           </SectionReveal>
@@ -210,27 +242,16 @@ export default function HomePage() {
             viewport={{ once: true, margin: "-60px" }}
             variants={stagger}
           >
-            {[
-              {
-                step: "01",
-                title: "Write your note",
-                desc: "Compose any text content you want to share securely. No character format restrictions.",
-              },
-              {
-                step: "02",
-                title: "Set an access code",
-                desc: "Choose a custom, memorable code. This becomes the only key to your encrypted payload.",
-              },
-              {
-                step: "03",
-                title: "Share & forget",
-                desc: "Send the code to your recipient. The note auto-destructs after your chosen TTL expires.",
-              },
-            ].map(({ step, title, desc }) => (
+            {steps.map(({ step, title, desc, icon }, i) => (
               <motion.div key={step} variants={fadeUp} className="step-card">
-                <span className="step-number">{step}</span>
+                <div className="step-header">
+                  <div className="step-icon">{icon}</div>
+                  <span className="step-number">{step}</span>
+                </div>
                 <h3 className="heading-md" style={{ marginBottom: 8 }}>{title}</h3>
-                <p className="text-secondary" style={{ fontSize: "0.92rem", lineHeight: 1.65 }}>{desc}</p>
+                <p className="text-secondary" style={{ fontSize: "0.9rem", lineHeight: 1.7 }}>{desc}</p>
+                {/* Connector line (except last) */}
+                {i < steps.length - 1 && <div className="step-connector" />}
               </motion.div>
             ))}
           </motion.div>
@@ -239,16 +260,18 @@ export default function HomePage() {
 
       {/* ========== CTA ========== */}
       <section className="cta-section">
+        <div className="cta-glow" />
         <div className="container">
           <SectionReveal>
-            <div style={{ textAlign: "center" }}>
+            <div style={{ textAlign: "center", position: "relative", zIndex: 2 }}>
               <motion.h2 variants={childVariants} className="heading-display" style={{ marginBottom: 16 }}>
-                <em>Drop data. Walk away.</em>
+                Ready to{" "}
+                <span className="text-gradient">drop data</span>?
               </motion.h2>
               <motion.p
                 variants={childVariants}
                 className="text-secondary"
-                style={{ fontSize: "1.15rem", maxWidth: 480, margin: "0 auto 40px", lineHeight: 1.7 }}
+                style={{ fontSize: "1.1rem", maxWidth: 480, margin: "0 auto 40px", lineHeight: 1.7 }}
               >
                 NoteVault requires zero onboarding. No email verification. No passwords to remember.
               </motion.p>
@@ -270,99 +293,101 @@ export default function HomePage() {
       <style jsx>{`
         /* ============ HERO ============ */
         .hero {
-          background: linear-gradient(180deg, #a8d8f0 0%, #c8e6f8 30%, #dbeefb 70%, #eef6fd 100%);
-          padding: 140px 0 0;
           position: relative;
           overflow: hidden;
-          min-height: 70vh;
+          padding: 160px 0 100px;
+          min-height: 85vh;
+          display: flex;
+          align-items: center;
+          background: var(--bg-primary);
         }
 
-        /* Subtle sky texture overlay */
-        .hero::before {
-          content: "";
+        /* Gradient mesh blobs */
+        .hero-glow {
           position: absolute;
-          inset: 0;
-          background:
-            radial-gradient(ellipse at 30% 30%, rgba(255,255,255,0.35), transparent 60%),
-            radial-gradient(ellipse at 70% 50%, rgba(255,255,255,0.2), transparent 50%);
+          border-radius: 50%;
+          filter: blur(120px);
           pointer-events: none;
         }
 
-        /* ── Decorative Clouds ── */
-        .hero-clouds {
+        .hero-glow-1 {
+          width: 600px;
+          height: 600px;
+          background: rgba(139, 92, 246, 0.12);
+          top: -200px;
+          left: -100px;
+          animation: floatSlow 15s ease-in-out infinite;
+        }
+
+        .hero-glow-2 {
+          width: 500px;
+          height: 500px;
+          background: rgba(99, 102, 241, 0.08);
+          top: -100px;
+          right: -150px;
+          animation: floatSlow 20s ease-in-out infinite reverse;
+        }
+
+        .hero-glow-3 {
+          width: 400px;
+          height: 400px;
+          background: rgba(59, 130, 246, 0.06);
+          bottom: -100px;
+          left: 30%;
+          animation: floatSlow 18s ease-in-out infinite 4s;
+        }
+
+        @keyframes floatSlow {
+          0%, 100% { transform: translate(0, 0); }
+          50% { transform: translate(30px, -20px); }
+        }
+
+        /* Subtle grid pattern */
+        .hero-grid {
           position: absolute;
           inset: 0;
-          pointer-events: none;
-          z-index: 0;
+          background-image:
+            linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+          background-size: 64px 64px;
+          mask-image: radial-gradient(ellipse 60% 50% at 50% 0%, black, transparent);
+          -webkit-mask-image: radial-gradient(ellipse 60% 50% at 50% 0%, black, transparent);
         }
 
-        .cloud {
-          position: absolute;
-          filter: blur(1px);
+        /* Hero badge */
+        .hero-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 7px 18px;
+          border-radius: 9999px;
+          font-size: 0.78rem;
+          font-weight: 600;
+          letter-spacing: 0.02em;
+          color: var(--accent-tertiary);
+          background: rgba(139, 92, 246, 0.08);
+          border: 1px solid rgba(139, 92, 246, 0.15);
+          margin-bottom: 32px;
         }
 
-        .cloud-1 {
-          width: 220px;
-          top: 10%;
-          left: 5%;
-          animation: floatCloud 20s ease-in-out infinite;
+        .hero-badge-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: #4ade80;
+          box-shadow: 0 0 8px rgba(74, 222, 128, 0.4);
+          animation: pulse-dot 2s ease-in-out infinite;
         }
 
-        .cloud-2 {
-          width: 180px;
-          top: 5%;
-          right: 8%;
-          animation: floatCloud 25s ease-in-out infinite reverse;
+        @keyframes pulse-dot {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.5; }
         }
 
-        .cloud-3 {
-          width: 150px;
-          top: 35%;
-          right: 15%;
-          animation: floatCloud 22s ease-in-out infinite 3s;
-        }
-
-        @keyframes floatCloud {
-          0%, 100% { transform: translateX(0) translateY(0); }
-          50% { transform: translateX(15px) translateY(-8px); }
-        }
-
-        /* ── Decorative torn paper/wave shapes ── */
-        .hero-wave-left {
-          position: absolute;
-          left: -40px;
-          top: 0;
-          height: 100%;
-          width: 350px;
-          z-index: 1;
-          opacity: 0.7;
-        }
-
-        .hero-wave-right {
-          position: absolute;
-          right: -40px;
-          top: 0;
-          height: 100%;
-          width: 350px;
-          z-index: 1;
-          opacity: 0.7;
-        }
-
-        /* ── Decorative dashed lines ── */
-        .hero-dashes {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          z-index: 0;
-          opacity: 0.6;
-        }
-
-        /* ── Hero Text ── */
         .hero-subtitle {
           color: var(--text-secondary);
           font-size: 1.15rem;
-          max-width: 520px;
+          max-width: 540px;
           margin: 24px auto 0;
           line-height: 1.75;
         }
@@ -372,15 +397,16 @@ export default function HomePage() {
           gap: 16px;
           justify-content: center;
           flex-wrap: wrap;
-          margin-top: 40px;
-          padding-bottom: 80px;
+          margin-top: 44px;
         }
 
         /* ============ TRUST MARQUEE ============ */
         .trust-section {
-          padding: 20px 0;
+          padding: 24px 0;
           overflow: hidden;
+          border-top: 1px solid var(--border-subtle);
           border-bottom: 1px solid var(--border-subtle);
+          background: var(--bg-secondary);
         }
 
         .trust-track {
@@ -391,8 +417,8 @@ export default function HomePage() {
 
         .trust-marquee {
           display: flex;
-          gap: 36px;
-          animation: marquee 30s linear infinite;
+          gap: 40px;
+          animation: marquee 35s linear infinite;
           width: max-content;
         }
 
@@ -400,20 +426,20 @@ export default function HomePage() {
           display: inline-flex;
           align-items: center;
           gap: 10px;
-          font-size: 0.78rem;
+          font-size: 0.76rem;
           font-weight: 600;
           text-transform: uppercase;
-          letter-spacing: 0.08em;
+          letter-spacing: 0.1em;
           color: var(--text-muted);
           white-space: nowrap;
           flex-shrink: 0;
         }
 
         .trust-dot {
-          width: 5px;
-          height: 5px;
+          width: 4px;
+          height: 4px;
           border-radius: 50%;
-          background: var(--text-muted);
+          background: var(--accent-primary);
           opacity: 0.5;
         }
 
@@ -424,24 +450,49 @@ export default function HomePage() {
 
         /* ============ FEATURES ============ */
         .features-section {
-          background: var(--bg-secondary);
+          background: var(--bg-primary);
+          position: relative;
         }
 
         .feature-card {
           cursor: default;
           padding: 32px 28px;
+          position: relative;
+          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .feature-card:hover {
+          border-color: rgba(139, 92, 246, 0.15);
         }
 
         .feature-card .feature-icon {
-          color: var(--text-secondary);
+          color: var(--accent-secondary);
+          background: rgba(139, 92, 246, 0.08);
+          border-color: rgba(139, 92, 246, 0.12);
+        }
+
+        .feature-card-glow {
+          position: absolute;
+          bottom: 0;
+          left: 20%;
+          right: 20%;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, var(--feature-accent, #8b5cf6), transparent);
+          opacity: 0;
+          transition: opacity 0.4s ease;
+        }
+
+        .feature-card:hover .feature-card-glow {
+          opacity: 0.4;
         }
 
         /* ============ HOW IT WORKS ============ */
         .how-section {
           padding: var(--space-section) 0;
-          background: var(--tint-lavender);
-          border-radius: var(--radius-2xl);
-          margin: 0 16px;
+          background: var(--bg-secondary);
+          position: relative;
+          border-top: 1px solid var(--border-subtle);
+          border-bottom: 1px solid var(--border-subtle);
         }
 
         .steps-grid {
@@ -452,53 +503,86 @@ export default function HomePage() {
 
         .step-card {
           padding: 36px 28px;
-          background: rgba(255, 255, 255, 0.6);
-          backdrop-filter: blur(12px);
-          border: 1px solid rgba(255, 255, 255, 0.8);
-          border-radius: var(--radius-lg);
-          box-shadow: var(--shadow-sm);
+          background: var(--bg-card);
+          border: 1px solid var(--border-light);
+          border-radius: var(--radius-xl);
+          box-shadow: var(--shadow-card);
+          position: relative;
+          backdrop-filter: blur(8px);
+          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .step-card:hover {
+          border-color: rgba(139, 92, 246, 0.2);
+          transform: translateY(-4px);
+          box-shadow: var(--shadow-card-hover);
+        }
+
+        .step-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 20px;
+        }
+
+        .step-icon {
+          width: 42px;
+          height: 42px;
+          border-radius: 12px;
+          background: rgba(139, 92, 246, 0.08);
+          border: 1px solid rgba(139, 92, 246, 0.12);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--accent-secondary);
         }
 
         .step-number {
-          font-family: var(--font-display);
-          font-size: 3rem;
-          font-weight: 400;
+          font-family: var(--font-sans);
+          font-size: 2.5rem;
+          font-weight: 800;
           line-height: 1;
-          display: block;
-          margin-bottom: 16px;
-          color: var(--text-muted);
-          opacity: 0.6;
+          color: rgba(255, 255, 255, 0.04);
+          letter-spacing: -0.04em;
+        }
+
+        .step-connector {
+          display: none;
         }
 
         /* ============ CTA ============ */
         .cta-section {
           padding: var(--space-section) 0;
-          background: var(--tint-green);
-          border-radius: var(--radius-2xl);
-          margin: var(--space-xl) 16px;
+          position: relative;
+          overflow: hidden;
+          background: var(--bg-primary);
+        }
+
+        .cta-glow {
+          position: absolute;
+          width: 500px;
+          height: 500px;
+          background: radial-gradient(circle, rgba(139, 92, 246, 0.1), transparent 70%);
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          pointer-events: none;
         }
 
         /* ============ RESPONSIVE ============ */
         @media (max-width: 768px) {
           .hero {
-            padding: 120px 0 0;
+            padding: 130px 0 80px;
             min-height: auto;
           }
 
           .hero-break { display: none; }
 
-          .hero-wave-left,
-          .hero-wave-right {
-            width: 150px;
-            opacity: 0.4;
+          .hero-subtitle {
+            font-size: 1rem;
           }
 
           .steps-grid { grid-template-columns: 1fr; }
-
-          .how-section,
-          .cta-section {
-            border-radius: var(--radius-lg);
-          }
         }
 
         @media (min-width: 769px) {

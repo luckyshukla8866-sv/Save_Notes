@@ -1,34 +1,44 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { IconShieldCheck } from "@tabler/icons-react";
+import { IconShieldCheck, IconArrowUpRight } from "@tabler/icons-react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
     <footer className="footer">
-      {/* ── Footer Grid ── */}
+      {/* ── Gradient separator ── */}
+      <div className="footer-gradient-line" />
+
       <div className="footer-main">
         <div className="container">
           <div className="footer-grid">
             <div className="footer-brand">
               <Link href="/" className="footer-logo-link">
-                NoteVault
+                <span className="footer-logo-icon">N</span>
+                <span>NoteVault</span>
               </Link>
               <p className="footer-tagline">
-                Privacy-first temporary note sharing. No accounts, no tracking,
-                no data stored beyond expiry.
+                Privacy-first temporary note sharing. Zero accounts,
+                zero tracking, zero data stored beyond expiry.
               </p>
             </div>
 
             <div className="footer-col">
               <h4 className="footer-col-title">Navigate</h4>
-              <Link href="/" className="footer-link">Home</Link>
-              <Link href="/create" className="footer-link">Create Note</Link>
-              <Link href="/access" className="footer-link">Access Note</Link>
-              <Link href="/privacy" className="footer-link">Privacy</Link>
+              <Link href="/" className="footer-link">
+                Home <IconArrowUpRight size={12} />
+              </Link>
+              <Link href="/create" className="footer-link">
+                Create Note <IconArrowUpRight size={12} />
+              </Link>
+              <Link href="/access" className="footer-link">
+                Access Note <IconArrowUpRight size={12} />
+              </Link>
+              <Link href="/privacy" className="footer-link">
+                Privacy <IconArrowUpRight size={12} />
+              </Link>
             </div>
 
             <div className="footer-col">
@@ -64,9 +74,18 @@ export default function Footer() {
           z-index: 10;
         }
 
+        .footer-gradient-line {
+          height: 1px;
+          background: linear-gradient(90deg,
+            transparent,
+            rgba(139, 92, 246, 0.3),
+            rgba(99, 102, 241, 0.2),
+            transparent
+          );
+        }
+
         .footer-main {
           padding: 56px 0 28px;
-          border-top: 1px solid var(--border-subtle);
           background: var(--bg-secondary);
         }
 
@@ -84,13 +103,35 @@ export default function Footer() {
         }
 
         .footer-logo-link {
+          display: flex;
+          align-items: center;
+          gap: 10px;
           font-family: var(--font-sans);
-          font-size: 1.3rem;
-          font-weight: 800;
+          font-size: 1.15rem;
+          font-weight: 700;
           text-decoration: none;
           letter-spacing: -0.02em;
           color: var(--text-primary);
           width: fit-content;
+          transition: opacity 0.2s ease;
+        }
+
+        .footer-logo-link:hover {
+          opacity: 0.8;
+        }
+
+        .footer-logo-icon {
+          width: 28px;
+          height: 28px;
+          border-radius: 8px;
+          background: linear-gradient(135deg, #8b5cf6, #6366f1);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.72rem;
+          font-weight: 800;
+          color: #fff;
+          box-shadow: 0 2px 8px rgba(139, 92, 246, 0.25);
         }
 
         .footer-tagline {
@@ -107,10 +148,10 @@ export default function Footer() {
         }
 
         .footer-col-title {
-          font-size: 0.72rem;
-          font-weight: 700;
+          font-size: var(--text-micro);
+          font-weight: 600;
           text-transform: uppercase;
-          letter-spacing: 0.12em;
+          letter-spacing: 0.14em;
           color: var(--text-secondary);
           margin-bottom: 4px;
         }
@@ -119,11 +160,25 @@ export default function Footer() {
           color: var(--text-muted);
           text-decoration: none;
           font-size: var(--text-small);
-          transition: color 0.2s ease;
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          transition: all 0.2s ease;
+        }
+
+        .footer-link svg {
+          opacity: 0;
+          transform: translate(-4px, 4px);
+          transition: all 0.2s ease;
         }
 
         .footer-link:hover {
           color: var(--text-primary);
+        }
+
+        .footer-link:hover svg {
+          opacity: 1;
+          transform: translate(0, 0);
         }
 
         .footer-info {
@@ -136,7 +191,7 @@ export default function Footer() {
         }
 
         .footer-info svg {
-          color: #16a34a;
+          color: #4ade80;
           opacity: 0.6;
           flex-shrink: 0;
         }
@@ -161,7 +216,7 @@ export default function Footer() {
         .footer-built {
           color: var(--text-muted);
           font-size: var(--text-caption);
-          opacity: 0.6;
+          opacity: 0.5;
         }
 
         @media (max-width: 768px) {

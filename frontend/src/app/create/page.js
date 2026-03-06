@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { createNote } from "@/lib/api";
 import { motion, AnimatePresence } from "framer-motion";
-import { IconLock, IconCheck, IconCopy, IconRefresh, IconArrowRight, IconAlertCircle } from "@tabler/icons-react";
+import { IconLock, IconCheck, IconCopy, IconRefresh, IconArrowRight, IconAlertCircle, IconSparkles } from "@tabler/icons-react";
 
 const CODE_REGEX = /^[a-z0-9_-]+$/;
 const EXPIRY_OPTIONS = [
@@ -18,10 +18,10 @@ const MAX_CODE_LENGTH = 32;
 
 const formVariants = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { staggerChildren: 0.1 } },
+  show: { opacity: 1, y: 0, transition: { staggerChildren: 0.08 } },
 };
 const childVariants = {
-  hidden: { opacity: 0, y: 15 },
+  hidden: { opacity: 0, y: 12 },
   show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 400, damping: 30 } },
 };
 
@@ -78,10 +78,11 @@ export default function CreateNotePage() {
   if (status === "success" && result) {
     return (
       <div className="page-wrapper">
+        <div className="page-glow" />
         <div className="container container--narrow">
           <motion.div
-            className="glass-card"
-            style={{ textAlign: "center", padding: "60px 40px" }}
+            className="glass-card glass-card--static"
+            style={{ textAlign: "center", padding: "56px 40px" }}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
@@ -91,15 +92,15 @@ export default function CreateNotePage() {
               initial={{ scale: 0 }} animate={{ scale: 1 }}
               transition={{ type: "spring", stiffness: 200, damping: 20, delay: 0.1 }}
             >
-              <IconCheck size={36} color="#16a34a" stroke={2.5} />
+              <IconCheck size={32} color="#4ade80" stroke={2.5} />
             </motion.div>
 
             <motion.h1 className="heading-display" style={{ marginBottom: 12 }}
               initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-              Note <em>Secured</em>
+              Note <span className="text-gradient">Secured</span>
             </motion.h1>
 
-            <motion.p className="text-secondary" style={{ marginBottom: 32, fontSize: "1.05rem" }}
+            <motion.p className="text-secondary" style={{ marginBottom: 28, fontSize: "1.02rem" }}
               initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
               Share the access code below. It will self-destruct after {form.expiry_hours} hour{form.expiry_hours > 1 && "s"}.
             </motion.p>
@@ -108,11 +109,11 @@ export default function CreateNotePage() {
               initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
               <div className="code-text">{result.access_code}</div>
               <button onClick={handleCopy} className="code-copy-btn">
-                {copied ? <IconCheck size={18} color="#16a34a" /> : <IconCopy size={18} />}
+                {copied ? <IconCheck size={18} color="#4ade80" /> : <IconCopy size={18} />}
               </button>
             </motion.div>
 
-            <motion.div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap", marginTop: 40 }}
+            <motion.div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", marginTop: 36 }}
               initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
               <button className="btn btn--secondary" onClick={handleReset}>
                 <IconRefresh size={18} /> New Note
@@ -124,34 +125,47 @@ export default function CreateNotePage() {
           </motion.div>
         </div>
         <style jsx>{`
+          .page-glow {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(74, 222, 128, 0.06), transparent 70%);
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
+            z-index: 0;
+          }
           .success-icon {
-            width: 72px; height: 72px; border-radius: 50%;
-            background: rgba(22, 163, 74, 0.08);
+            width: 68px; height: 68px; border-radius: 50%;
+            background: rgba(74, 222, 128, 0.08);
             display: flex; align-items: center; justify-content: center;
             margin: 0 auto 24px;
-            border: 1.5px solid rgba(22, 163, 74, 0.2);
+            border: 1px solid rgba(74, 222, 128, 0.15);
+            box-shadow: 0 0 30px rgba(74, 222, 128, 0.1);
           }
           .code-display {
             background: var(--bg-input);
-            border: 1.5px solid var(--border-light);
+            border: 1px solid var(--border-light);
             border-radius: var(--radius-md);
-            padding: 20px 24px;
+            padding: 18px 22px;
             display: flex; align-items: center; justify-content: space-between; gap: 16px;
           }
           .code-text {
-            font-family: var(--font-mono); font-size: 1.2rem;
-            letter-spacing: 0.05em; color: var(--text-primary);
+            font-family: var(--font-mono); font-size: 1.1rem;
+            letter-spacing: 0.04em; color: var(--text-primary);
             overflow: hidden; text-overflow: ellipsis;
           }
           .code-copy-btn {
-            flex-shrink: 0; background: var(--bg-secondary);
-            color: var(--text-primary); border: 1.5px solid var(--border-light);
+            flex-shrink: 0; background: rgba(255,255,255,0.04);
+            color: var(--text-secondary); border: 1px solid var(--border-light);
             padding: 10px; border-radius: var(--radius-sm); cursor: pointer;
             display: flex; align-items: center; justify-content: center;
             transition: all 0.2s ease;
           }
           .code-copy-btn:hover {
-            background: var(--bg-input); border-color: var(--border-medium);
+            background: rgba(255,255,255,0.08); border-color: var(--border-medium);
+            color: var(--text-primary);
           }
         `}</style>
       </div>
@@ -160,22 +174,23 @@ export default function CreateNotePage() {
 
   // ── Form View ──
   return (
-    <div className="page-wrapper" style={{ background: "var(--tint-slate)" }}>
+    <div className="page-wrapper">
+      <div className="page-glow" />
       <div className="container container--narrow">
         <motion.div
-          className="glass-card"
+          className="glass-card glass-card--static"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          style={{ padding: "48px 40px" }}
+          style={{ padding: "44px 36px" }}
         >
-          <div style={{ textAlign: "center", marginBottom: 40 }}>
+          <div style={{ textAlign: "center", marginBottom: 36 }}>
             <p className="section-label" style={{ justifyContent: "center" }}>Secure Transfer</p>
-            <h1 className="heading-display" style={{ marginBottom: 12 }}>
-              <em>Create a Note</em>
+            <h1 className="heading-display" style={{ marginBottom: 10 }}>
+              <span className="text-gradient">Create a Note</span>
             </h1>
-            <p className="text-secondary">
-              Securely drop data into the vault. It destroys itself upon expiry.
+            <p className="text-secondary" style={{ fontSize: "0.95rem" }}>
+              Securely drop data into the vault. It self-destructs on expiry.
             </p>
           </div>
 
@@ -202,7 +217,7 @@ export default function CreateNotePage() {
             <motion.div className="form-group" variants={childVariants}>
               <label htmlFor="content" className="form-label" style={{ display: "flex", justifyContent: "space-between" }}>
                 <span>Note Content</span>
-                <span className="text-muted" style={{ fontWeight: 400, color: progressPercent > 90 ? "#dc2626" : undefined }}>
+                <span className="text-muted" style={{ fontWeight: 400, color: progressPercent > 90 ? "#ef4444" : undefined }}>
                   {(contentBytes / 1024).toFixed(1)} / {MAX_NOTE_SIZE / 1024} KB
                 </span>
               </label>
@@ -210,6 +225,10 @@ export default function CreateNotePage() {
                 className={`form-textarea ${errors.content ? "input-error" : ""}`}
                 placeholder="Enter your note content here..."
                 value={form.content} onChange={(e) => setForm({ ...form, content: e.target.value })} />
+              {/* Progress bar */}
+              <div className="progress-track">
+                <div className="progress-fill" style={{ width: `${progressPercent}%` }} />
+              </div>
               <AnimatePresence>
                 {errors.content && (
                   <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="form-error">
@@ -232,13 +251,13 @@ export default function CreateNotePage() {
             <AnimatePresence>
               {status === "error" && apiError && (
                 <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}
-                  className="status-error" style={{ marginBottom: 28 }}>
+                  className="status-error" style={{ marginBottom: 24 }}>
                   <IconAlertCircle size={20} /> {apiError}
                 </motion.div>
               )}
             </AnimatePresence>
 
-            <motion.div variants={childVariants} style={{ marginTop: 16 }}>
+            <motion.div variants={childVariants} style={{ marginTop: 12 }}>
               <button type="submit" className="btn btn--primary btn--large" disabled={status === "loading"} style={{ width: "100%" }}>
                 {status === "loading" ? (<><span className="spinner"></span> Encrypting...</>) :
                   (<><IconLock size={18} /> Lock & Transfer</>)}
@@ -247,6 +266,32 @@ export default function CreateNotePage() {
           </motion.form>
         </motion.div>
       </div>
+
+      <style jsx>{`
+        .page-glow {
+          position: fixed;
+          width: 500px;
+          height: 500px;
+          background: radial-gradient(circle, rgba(139, 92, 246, 0.06), transparent 70%);
+          top: 20%;
+          left: 50%;
+          transform: translateX(-50%);
+          pointer-events: none;
+          z-index: 0;
+        }
+        .progress-track {
+          height: 2px;
+          background: var(--border-subtle);
+          border-radius: 2px;
+          overflow: hidden;
+        }
+        .progress-fill {
+          height: 100%;
+          background: linear-gradient(90deg, #8b5cf6, #6366f1);
+          border-radius: 2px;
+          transition: width 0.3s ease;
+        }
+      `}</style>
     </div>
   );
 }
