@@ -390,6 +390,13 @@ body {
   background-position: right 16px center;
   padding-right: 48px;
   cursor: pointer;
+  color-scheme: dark;
+}
+
+.form-select option {
+  background: #16161a;
+  color: var(--text-primary);
+  padding: 8px;
 }
 
 .input-error {
